@@ -1,0 +1,36 @@
+// .float_frame-box{
+//   width: 100%;
+//   position: absolute;
+//   z-index: 999;
+//   // height: calc(100vh - 65px);
+//   height: 80vh;
+//   top: 65px;
+// }
+.float_frame-container{
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  // top: 50%;
+  // transform: translateY(-50%);
+  // left: 160px;
+  // width:655px;
+  // height: 931px;
+  width: 1466px;
+  height: 85vh;
+  // background: #001F52f1;
+  // background-color: transparent;
+  border-radius: 4px ;
+  box-sizing: border-box;
+  padding: 0 100px;
+  // backdrop-filter: blur(10px);
+  // overflow: hidden;
+  white-space: nowrap;
+  //  overflow-y: scroll;
+   /* 隐藏滚动条 */
+   scrollbar-width: none; 
+   -ms-overflow-style: none; 
+   &::-webkit-scrollbar {
+  display: none; /* Chrome Safari */
+  }
+}

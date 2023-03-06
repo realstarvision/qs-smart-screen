@@ -1,0 +1,35 @@
+.MuiCalendarPicker-root{
+	background: linear-gradient(180deg, #40485C 30%, #40485C 70%);
+	box-shadow: 0px 0px 24px 4px rgba(26,28,37,0.5);
+	border-radius: 2px;
+	backdrop-filter: blur(3px);
+  .MuiPickersDay-root{
+    background: none;
+    border-radius:2px;
+  }
+  .Mui-selected{
+    background: linear-gradient(180deg, #AEBDD8 0%, #7E98C8 71%, #8499BF 100%);
+    box-shadow: 0px 0px 8px 0px rgba(43,48,63,0.5000);
+    color: #fff !important;
+  }
+}
+
+
+.MuiMenu-root{
+  .MuiPaper-root{
+    background: linear-gradient(180deg, #40485C 30%, #40485C 70%);
+    box-shadow: 0px 0px 24px 4px rgba(26,28,37,0.5);
+    border-radius: 2px;
+    backdrop-filter: blur(3px);
+    font-size: 12px;
+    .Mui-selected{
+      background: #232734 !important;
+    }
+  }
+  .MuiList-root{
+    padding: 0;
+    .MuiMenuItem-root{
+      font-size: 12px;
+    }
+  }
+}

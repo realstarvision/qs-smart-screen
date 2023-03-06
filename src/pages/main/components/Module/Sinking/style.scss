@@ -1,0 +1,141 @@
+
+
+
+.sinking{
+  height: 95%;
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  /*------ 左边 ------*/
+  margin-top: 10px;
+  .subsidence_risk_prediction{
+    margin-top: 5px;
+    // overflow: hidden;
+    .threat_level{
+      position: relative;
+      min-height: 330px;
+      height: 30vh;
+      // .unit{
+      //   position: absolute;
+      //   left: 30px;
+      //   top: 25px;
+      //   z-index: 999;
+      //   color: #fff;
+      //   font-size: 11px;
+      //   opacity: 0.9;
+      //   font-weight: 300;
+      // }
+    }
+
+    .subsidence_area{
+      position: relative;
+      .chart-box{
+        position: relative;
+        height: calc(280px);
+      }
+      .doughnut_chart{
+        width: 300px;
+        height: 300px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -150px;
+        margin-left: -151px;
+        animation: rotate 4.5s linear 1s  infinite;
+      }
+      @keyframes rotate  {
+        0%{
+          transform: rotate(0deg);
+        } 
+        100%{
+          transform: rotate(360deg);
+        } 
+      }
+    }
+  }
+  .middle{
+    position: relative;
+    margin-top: 40px;
+    .left{
+      position: relative;
+      .unit{
+        position: absolute;
+        left: 32%;
+        top: 23%;
+        z-index: 999;
+        color: #fff;
+        font-size: 11px;
+        opacity: 0.9;
+        font-weight: 300;
+      }
+      .legend{
+        // margin-top: 20px;
+        position: absolute;
+        right: 0;
+        top: 50px;
+        display: flex;
+        justify-content: center;
+        span{
+          position: relative;
+          color: #C3C7C7;
+          font-size: 12px;
+          margin-left: 20px;
+          display: flex;
+          align-items: center;
+          &::before{
+            position: absolute;
+            left: -12px;
+            // top: 5px;
+            content: '';
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            z-index: 2;
+            background-color: var(--bgColor);
+          }
+        }
+      }
+    }
+    .threat_level{
+      min-height: 300px;
+      height: 30vh;
+      // padding-top:32px ;
+    }
+  }
+
+
+
+  /*---- 右边 ----*/
+  .mt-50{
+    margin-top: 20px;
+  }
+  .mt-20{
+    // margin-top: 0.5vh;
+    padding-top: 15px !important;
+  }
+  .pt-48{
+    padding-top: 48px !important;
+  }
+  .table_box{
+    .announcement_table{
+      min-height: 180px !important;
+      height: 23vh;
+    }
+    .eventProcessing_table{
+      min-height: 510px !important;
+      max-height: 760px !important;
+      height:60vh;
+    }
+  }
+
+  .event_processing_safety{
+    margin-top: 5vh;
+    position: relative;
+    min-height: 250px;
+    height: 30vh;
+    // height: ;
+  }
+
+}

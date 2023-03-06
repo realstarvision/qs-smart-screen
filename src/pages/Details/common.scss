@@ -1,0 +1,73 @@
+.tigs_red{
+  border: 2px solid #DD2121 !important;
+  color: #DD2121 !important;
+}
+
+.tigs_yellow{
+  border: 2px solid #FFD141 !important;
+  color: #FFD141 !important;
+}
+
+.tigs_green{
+  border: 2px solid #27DD23 !important;
+  color: #27DD23 !important;
+}
+
+.tigs{
+  width: 96px;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 3px ;
+  border: 2px solid #DD2121;
+  display: inline-block;
+  font-size: 14px;
+  color: #DD2121;
+  text-align: center;
+}
+
+.rightBox,.leftBox{
+  position: absolute;
+  top: 65px;
+  z-index: 1001;
+  height: 90vh;
+  background: #001F52;
+  border-radius: 10px;
+  color: #FFFFFF;
+  overflow-x: hidden;
+  // box-sizing: border-box;
+}
+
+.rightBox{
+  right:40px;
+  padding: 30px 60px;
+  width: 790px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+.leftBox{
+  left:40px;
+  // padding: 30px 20px;
+  padding: 60px 160px 50px 60px;
+  width: 1060px;
+  box-sizing: border-box;
+}
+
+.time_bar{
+  position: absolute;
+  top: 75px;
+  z-index: 1000;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.back_btn{
+  position: absolute;
+  bottom:  40px;
+  width: 250px;
+  // height: 48.91px;
+  z-index: 999;
+  left: 50%;
+  margin-left: -125px;
+  // transform: translateX(-50%);
+  cursor: pointer;
+}

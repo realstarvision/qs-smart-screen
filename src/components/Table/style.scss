@@ -1,0 +1,43 @@
+.table-box{
+  width: 100%;
+  overflow: hidden;
+  table{
+    background: #001B47
+  }
+  .rolllinkk{
+    width: 100%; 
+    height: 100px;
+    position: relative;
+    overflow: hidden auto; 
+    cursor: pointer;
+  }
+  thead{
+    th{
+      padding: 13px 0 9px 0 !important;
+      color: #A6B8DB;
+    }
+    border-bottom: 2px solid #FFD141;
+    tr{
+      background-color: #001B47; 
+    }
+  }
+  th{
+    font-size: 14px !important;
+    font-weight: bold !important;
+    border: none !important;
+  }
+  td{
+    font-size: 11px !important;
+    border: none !important;
+    padding: 10px 0 !important;
+  }
+  td {
+    text-align: center !important;
+    color: #FFFFFF;
+    opacity: 0.9;
+  }
+  tr{
+    background-color: #023575;
+    // padding: 0 10px !important;
+  }
+}

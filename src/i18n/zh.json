@@ -1,0 +1,12 @@
+{
+  "login": {
+    "language": "中文",
+    "title": "欢迎!",
+    "subTitle": "今天将是美好的一天。",
+    "userPlaceholder": "请输入账号",
+    "passwordPlaceholder": "请输入密码",
+    "remember": "记住账号",
+    "loginBtn": "登陆",
+    "prompt": "请用钉钉扫码登陆"
+  }
+}

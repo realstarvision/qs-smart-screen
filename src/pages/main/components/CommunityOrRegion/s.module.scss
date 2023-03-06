@@ -1,0 +1,27 @@
+.container{
+  position: absolute;
+  top: 150px;
+  left: 30px;
+  z-index: 1001;
+  .btn{
+    width: 145px;
+    height: 60px;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: all 0.38s;
+    transform: scale(0.9);
+    &:hover{
+      transform: scale(1);
+    }
+    span{
+      color: #fff;
+      margin-right: 25px;
+      font-size: 15px;
+      user-select: none;
+    }
+  }
+}

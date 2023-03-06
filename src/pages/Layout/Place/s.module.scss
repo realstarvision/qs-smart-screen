@@ -1,0 +1,79 @@
+.placeContainer{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1005;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,.4);
+  .placeWrapper{
+    width: 55vw;
+    height: 55vh;
+    min-width: 490px;
+    min-height: 350px;
+    background: #fff;
+    padding: 40px;
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .title{
+      font-size: 30px;
+      font-weight: 400;
+      color: #333333;
+      line-height: 35px;
+      // margin-bottom: 7.8vh;
+    }
+    .selectAcre{
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4%;
+      .item{
+        width: 15vw;
+        height: 17.7vh;
+        min-width: 120px;
+        min-height: 95px;
+        cursor: pointer;
+        border-radius: 4px;
+        border: 1px solid #D0D0D0;
+        font-size: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    .bntBox{
+      // text-align: right;
+      display: flex;
+      justify-content: space-between;
+      // margin-top: 12vh;
+      .single_screen{
+        color: #333333;
+        width: 100px;
+        height: 43px;
+        font-size: 18px;
+        font-weight: 500;
+        &:hover{
+          background: #D0D0D0;
+          color: #226AF5;
+        }
+      }
+      .btn{
+        color: #fff;
+        background: #226AF5;
+        border-radius: 2px;
+        font-size: 22px;
+        width: 84px;
+        height: 43px;
+        &:hover{
+          background: #226AF5;
+        }
+      }
+    }
+
+  }
+}

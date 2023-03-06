@@ -1,0 +1,19 @@
+
+
+.button_box-constainer{
+  background-image: url('@/assets/image/button/button_background.png');
+  width: 250px;
+  height: 55px;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+  transition: all 0.3s;
+  transform: scale(0.9);
+  &:hover{
+    transform: scale(0.95)
+  }
+}

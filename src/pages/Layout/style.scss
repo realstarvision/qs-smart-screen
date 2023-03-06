@@ -1,0 +1,14 @@
+
+
+.screen {
+  // display: inline-block;
+  width: 100%;  //设计稿的宽度
+  height: 100vh;  //设计稿的高度
+  // transform-origin: 0 0;
+  // position: absolute;
+  // left: 50%;
+  position: relative;
+  // background-image: url('@/assets/image/background/backrground_left.png');
+  // height: 100%;
+  background-size: cover;
+}

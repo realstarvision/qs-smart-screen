@@ -1,0 +1,24 @@
+.marker_popup{
+  .leaflet-popup-content-wrapper{
+    background: transparent;
+  }
+  background: rgba(0,27,71,0.6) ;
+  border-radius: 4px 4px 4px 4px;
+  backdrop-filter: blur(5px);
+  span{
+    color: #fff;
+    display: block;
+    margin-bottom: 10px;
+  }
+  .leaflet-popup-tip{
+    background: rgba(0,27,71,0.6) ;
+    // backdrop-filter: blur(5px);
+  }
+}
+
+.my-div-icon{
+  font-size:12px;
+  /*background:red;*/
+  /*width:5px;*/
+  color:#fff;
+}

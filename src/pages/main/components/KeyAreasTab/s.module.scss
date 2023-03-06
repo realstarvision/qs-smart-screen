@@ -1,0 +1,39 @@
+.cumulative_settlement_volume{
+  height: 100px;
+  position: absolute;
+  top: 150px;
+  right: 0;
+  z-index: 1001;
+  .map_tabs{
+    // margin-top: 100px;
+    padding: 0 30px;
+    .tab{
+      cursor: pointer;
+      position: relative;
+      width: 350px;
+      height: 111.1px;
+      // margin-bottom: 45px;
+      transition: all 0.3s;
+      transform-origin: center;
+      // transform: scale(0.9);
+      &:hover{
+        transform: scale(1.05);
+      }
+      span{
+        position: absolute;
+        left: 120px;
+        top: 25px;
+        font-size: 16px;
+        color: #7DA9D0;
+      }
+      .bg{
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  img{
+    position: absolute;
+    top: -20px;
+  }
+}

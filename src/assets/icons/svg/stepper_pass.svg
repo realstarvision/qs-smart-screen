@@ -1,0 +1,15 @@
+<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="components/steps-item-icon">
+<g clip-path="url(#clip0_1025_91307)">
+<rect id="Rectangle 964" x="0.500122" y="0.393311" width="24" height="24" rx="12" fill="#E8F3FF"/>
+<g id="tips/check">
+<path id="Vector" fill-rule="evenodd" clip-rule="evenodd" d="M10.8502 14.6763L17.9212 7.60522L18.864 8.54803L10.8502 16.5619L6.13611 11.8479L7.07892 10.9051L10.8502 14.6763Z" fill="#4E5969"/>
+</g>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_1025_91307">
+<rect x="0.500122" y="0.393311" width="24" height="24" rx="12" fill="white"/>
+</clipPath>
+</defs>
+</svg>

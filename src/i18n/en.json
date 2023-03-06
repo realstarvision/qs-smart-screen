@@ -1,0 +1,12 @@
+{
+  "login": {
+    "language": "english",
+    "title": "Welcome!",
+    "subTitle": "Today will be greet.",
+    "userPlaceholder": "Username",
+    "passwordPlaceholder": "Password",
+    "remember": "Remember me",
+    "loginBtn": "LOGIN",
+    "prompt": "Please log in with DingTalk scan code"
+  }
+}

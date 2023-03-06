@@ -1,0 +1,160 @@
+
+.garbage_sorting{
+  height: 95%;
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-top: 10px;
+  .top{
+    margin-top: 5px;
+    .garbage_sorting_chart{
+      position: relative;
+      min-height: 310px;
+      height: 33vh;
+      .unit{
+        position: absolute;
+        left: 17px;
+        top: 58px;
+        z-index: 999;
+        color: #fff;
+        font-size: 12px;
+        opacity: 0.8;
+        font-weight: 300;
+      }
+    }
+  
+    // 垃圾统计
+    .garbage_statistical_chart{
+      position: relative;
+      // margin-top: 95px;
+      .garbage_statistical{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        width: 90%;
+        margin: 0 auto;
+        .statistical_module{
+          width: 250px;
+          // padding: 0 30px;
+          margin-bottom: 10px;
+          .count{
+            display: flex;
+            justify-content: space-between;
+            div{
+              position: relative;
+              width: 110px;
+              height: 110px;
+              // background-image: url('@/assets/image/png/garbage_statistics_loop_inner.png');
+              background-size: cover;
+              text-align: center;
+              // animation: rotate 4.5s linear 1s  infinite;
+              .label{
+                margin-top: 40px;
+              }
+              .number{
+                color: #0170D2 ;
+                font-weight: 800;
+              }
+              p{
+                font-size: 12px;
+                color: #fff;
+                line-height: 17px;
+                transform: scale(0.8);
+              }
+              img{
+                position: absolute;
+                
+                
+              }
+              .loop_outer{
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                animation: rotate 7s linear 1s  infinite;
+              }
+              .loop_inner{
+                top: 50%;
+                left: 50%;
+                width: 76%;
+                height: 76%;
+                transform: translate(-50%,-50%);
+              }
+            }
+          }
+          .type{
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: #FFFFFF;
+            line-height: 14px;
+            margin-top: 5px;
+            transform: scale(0.8);
+          }
+        }
+      }
+    }
+  }
+
+
+  .garbage_disposal{
+    position: relative;
+    margin-top: 40px;
+    .garbage_disposal-wrapper{
+      padding-top: 0;
+      min-height: 310px;
+      height: 35vh;
+    }
+    .unit{
+      position: absolute;
+      left: 20px;
+      top: 30px;
+      z-index: 999;
+      color: #fff;
+      font-size: 12px;
+      opacity: 0.8;
+      font-weight: 300;
+    }
+
+  }
+
+
+
+
+  /* --- 右边 --- */
+
+  .mt-50{
+    margin-top: 20px;
+  }
+
+  .mt-20{
+    // margin-top: 0.5vh;
+    padding-top: 40px !important;
+  }
+
+  .pt-32{
+    padding-top: 48px !important;
+  }
+  .table_box{
+    .announcement_table{
+      min-height: 150px !important;
+      height: 25vh;
+    }
+  }
+
+
+  .event_processing_garbageSorting{
+    // margin-top: 0.5vh;
+    // margin-bottom: 35px;
+    display: flex;
+    justify-content: space-between;
+    .deviceList_table{
+      min-height: 150px !important;
+      height: 25vh;
+    }
+  }
+  .garbage_classification_point{
+    // height: 360px;
+  }
+}
