@@ -402,6 +402,7 @@ const index = (
         {checkedPoint &&
           polygonList.map((item, index) => (
             <Polygon
+              key={item.id}
               positions={item.coordinates}
               pathOptions={{ color: item.color }}
               eventHandlers={{

@@ -2,16 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { Box, Fade, Grid, FormLabel, MenuItem } from '@mui/material'
 import Input from '@/components/Input'
 import MyMenuItem from '@/components/MenuItem'
-import { keyArea } from '@/components/Map/json'
 import SvgIcon from '@/components/SvgIcon'
 import Title from '@/pages/common/ModuleTitle'
 import { socketSend } from '@/utils/websocket'
 // 图片
-import well_lid_title from '@/assets/image/well_lid/well_lid_title.png'
-import time_bar from '@/assets/image/keyAreas/time_bar.png'
-import Echarts from '@/components/Echarts'
-import rectangle from '@/assets/image/map/rectangle.png'
-import back_btn from '@/assets/image/button/button_background.png'
 // 数据
 import { wellLid } from '@/components/Map/json'
 import './style.scss'
@@ -97,62 +91,64 @@ export default function index({ wellLidId, place }) {
       {place === 0 && (
         <Box className={'leftBox leftBox_wellLid'}>
           <Box className={'left'}>
-            <Title
-              title="井盖设备列表"
-              style={{
-                marginBottom: '20px',
-              }}
-            ></Title>
-            <Grid container spacing={{ xs: 1 }} className="from">
-              <Grid item xs={6} className="from-item">
-                <FormLabel component="span" className="label">
-                  设备类型
-                </FormLabel>
-                <Input
-                  select
-                  required
-                  id="phoneInput"
-                  size="small"
-                  placeholder="设备类型"
-                  value={formParams.text}
-                  onChange={(e) => handleInputChange(e, 'text')}
-                  autoComplete="off"
-                  sx={{
-                    width: '70%',
-                  }}
-                >
-                  {deviceType.map((item, index) => (
-                    <MyMenuItem key={index} value={item}>
-                      {item}
-                    </MyMenuItem>
-                  ))}
-                </Input>
+            <Box className="top">
+              <Title
+                title="井盖设备列表"
+                style={{
+                  marginBottom: '20px',
+                }}
+              ></Title>
+              <Grid container spacing={{ xs: 1 }} className="from">
+                <Grid item xs={6} className="from-item">
+                  <FormLabel component="span" className="label">
+                    设备类型
+                  </FormLabel>
+                  <Input
+                    select
+                    required
+                    id="phoneInput"
+                    size="small"
+                    placeholder="设备类型"
+                    value={formParams.text}
+                    onChange={(e) => handleInputChange(e, 'text')}
+                    autoComplete="off"
+                    sx={{
+                      width: '70%',
+                    }}
+                  >
+                    {deviceType.map((item, index) => (
+                      <MyMenuItem key={index} value={item}>
+                        {item}
+                      </MyMenuItem>
+                    ))}
+                  </Input>
+                </Grid>
+                <Grid item xs={6} className="from-item">
+                  <FormLabel component="span" className="label">
+                    设备状态
+                  </FormLabel>
+                  <Input
+                    select
+                    required
+                    id="phoneInput"
+                    size="small"
+                    placeholder="设备状态"
+                    value={formParams.state}
+                    onChange={(e) => handleInputChange(e, 'state')}
+                    autoComplete="off"
+                    sx={{
+                      width: '70%',
+                    }}
+                  >
+                    {deviceState.map((item, index) => (
+                      <MyMenuItem key={index} value={index}>
+                        {item}
+                      </MyMenuItem>
+                    ))}
+                  </Input>
+                </Grid>
               </Grid>
-              <Grid item xs={6} className="from-item">
-                <FormLabel component="span" className="label">
-                  设备状态
-                </FormLabel>
-                <Input
-                  select
-                  required
-                  id="phoneInput"
-                  size="small"
-                  placeholder="设备状态"
-                  value={formParams.state}
-                  onChange={(e) => handleInputChange(e, 'state')}
-                  autoComplete="off"
-                  sx={{
-                    width: '70%',
-                  }}
-                >
-                  {deviceState.map((item, index) => (
-                    <MyMenuItem key={index} value={index}>
-                      {item}
-                    </MyMenuItem>
-                  ))}
-                </Input>
-              </Grid>
-            </Grid>
+            </Box>
             <Box className={'list'}>
               {list.map((item, index) => (
                 <Box onClick={() => handleItemClick(item)} className={'item ' + (item.id === data.id ? 'active' : '')}>
@@ -194,56 +190,60 @@ export default function index({ wellLidId, place }) {
 
       <Fade in={visible && place === 2}>
         <Box className={'rightBox rightBox_wellLid'}>
-          <Box className="title_bar">
-            <div className="title_info">
-              <span className="title">{data.title}</span>{' '}
-              <p
-                className={'tigs ' + (data.state === 1 ? 'tigs_green' : data.state === 2 ? 'tigs_yellow' : 'tigs_red')}
-              >
-                {data.state === 1 ? '在线' : data.state === 2 ? '漫水预警' : '离线'}
-              </p>
-            </div>
-            {/* <SvgIcon
+          <Box className="rightBox-warpper">
+            <Box className="title_bar">
+              <div className="title_info">
+                <span className="title">{data.title}</span>{' '}
+                <p
+                  className={
+                    'tigs ' + (data.state === 1 ? 'tigs_green' : data.state === 2 ? 'tigs_yellow' : 'tigs_red')
+                  }
+                >
+                  {data.state === 1 ? '在线' : data.state === 2 ? '漫水预警' : '离线'}
+                </p>
+              </div>
+              {/* <SvgIcon
               svgName="closeX"
               svgClass="closeX"
               onClick={() => {
                 setVisible(false)
               }}
             ></SvgIcon> */}
-          </Box>
-          {/* <img
+            </Box>
+            {/* <img
             src={rectangle}
             style={{
               width: '70%',
               marginTop: '30px',
             }}
           /> */}
-          <p className="mt font">入网时间：{data.joinTime}</p>
-          <p className="mt font">设备类型：{data.text}</p>
-          <p className="mt font">投放地址：{data.place}</p>
-          <p
-            className="mt font"
-            style={{
-              display: 'flex',
-            }}
-          >
-            <span>经纬度：</span>
-            <div>
-              {data.coordinates.length > 0 ? data.coordinates[0] : ''}
-              <br />
-              {data.coordinates.length > 0 ? data.coordinates[1] : ''}
-            </div>
-          </p>
-          {(data.state === 2 || data.state === 3) && (
+            <p className="mt font">入网时间：{data.joinTime}</p>
+            <p className="mt font">设备类型：{data.text}</p>
+            <p className="mt font">投放地址：{data.place}</p>
             <p
               className="mt font"
               style={{
-                color: data.state === 3 ? '#DD2121' : '#FFD141 ',
+                display: 'flex',
               }}
             >
-              {data.state === 3 ? '最后通信时间' : '告警时间 '} ：{data.alarmTime}
+              <span>经纬度：</span>
+              <div>
+                {data.coordinates.length > 0 ? data.coordinates[0] : ''}
+                <br />
+                {data.coordinates.length > 0 ? data.coordinates[1] : ''}
+              </div>
             </p>
-          )}
+            {(data.state === 2 || data.state === 3) && (
+              <p
+                className="mt font"
+                style={{
+                  color: data.state === 3 ? '#DD2121' : '#FFD141 ',
+                }}
+              >
+                {data.state === 3 ? '最后通信时间' : '告警时间 '} ：{data.alarmTime}
+              </p>
+            )}
+          </Box>
         </Box>
       </Fade>
 

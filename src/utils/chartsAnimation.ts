@@ -1,23 +1,41 @@
-// 定时器滚动事件
-export function eventProcessingChart(chartRef, end, timeout = 3500) {
+// 图表动画
+export default function chartsAnimation(ref, timerName, length = 6, endValue = 4, startValue = 0, timeout = 3500) {
   // 定时器
-  return setInterval(function () {
+  if (timerName) {
+    clearInterval(timerName)
+  }
+  let timer = setInterval(function () {
     // 每次向后滚动一个，最后一个从头开始。
-    let option = chartRef.myChart.getModel().option
+    let option = ref.myChart.getModel().option
     let obj
-    if (option.dataZoom[0].endValue == end) {
+    let obj2
+    if (option.dataZoom[0].endValue == length) {
       obj = {
-        endValue: 4,
-        startValue: 0,
+        startValue: startValue,
+        endValue: endValue,
       }
     } else {
       obj = {
-        endValue: option.dataZoom[0].endValue + 1,
         startValue: option.dataZoom[0].startValue + 1,
+        endValue: option.dataZoom[0].endValue + 1,
       }
     }
-    chartRef.setOption({
-      dataZoom: [obj],
+    if (option.dataZoom[2]) {
+      if (option.dataZoom[2].endValue == length) {
+        obj2 = {
+          startValue: startValue,
+          endValue: endValue,
+        }
+      } else {
+        obj2 = {
+          startValue: option.dataZoom[2].startValue + 1,
+          endValue: option.dataZoom[2].endValue + 1,
+        }
+      }
+    }
+    ref.setOption({
+      dataZoom: [obj, obj2],
     })
   }, timeout)
+  return timer
 }

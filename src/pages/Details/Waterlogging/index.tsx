@@ -2,13 +2,14 @@ import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'rea
 import { Box, Fade, Grid, FormLabel, MenuItem } from '@mui/material'
 import Input from '@/components/Input'
 import MyMenuItem from '@/components/MenuItem'
+import WaterloggingTab from '@/pages/main/components/WaterloggingTab'
 import { keyArea } from '@/components/Map/json'
 import { useSelector, useDispatch } from 'react-redux'
 import SvgIcon from '@/components/SvgIcon'
 import { circularRingOption, surfaceCircularRingOption } from './option'
 import Echarts from '@/components/Echarts'
 import { waterlogging } from '@/components/Map/json'
-import { colourStripData, echartTabs, hazardLevel, detailsInfo } from './json'
+import { colourStripData, echartTabs, hazardLevel } from './json'
 import Title from '@/pages/common/ModuleTitle'
 import TimeBar from '@/components/TimeBar'
 import { socketSend, socketOnMessage } from '@/utils/websocket'
@@ -27,9 +28,6 @@ function index({ waterloggingId, place, active }, ref) {
   let terrainClassificationActive = useSelector(
     (state: { terrainClassificationActive }) => state.terrainClassificationActive.value
   )
-
-  // 显示状态
-  let [visible, setVisible] = useState(true)
   // 列表
   const [list, setList] = useState([...waterlogging])
   // 数据
@@ -46,47 +44,27 @@ function index({ waterloggingId, place, active }, ref) {
   const [formParams, setFormParams] = useState({
     state: 0,
   })
-  // tab选中项
-  // let [active, setActive] = useState(2)
-  // echartTab选中项
 
-  useImperativeHandle(ref, () => ({
-    // setActive,
-  }))
+  // 向外抛出
+  useImperativeHandle(ref, () => ({}))
 
-  // 初始化
-  useEffect(() => {
-    // websocket接受信息
-    // socketOnMessage((data) => {
-    //   if (data.hasOwnProperty('terrainClassification')) {
-    //     console.log(data.terrainClassification)
-    //     dispatch(setTerrainClassificationActive(data.terrainClassification))
-    //   }
-    // })
-  }, [])
-
-  /* 监听标签变化 */
-  useEffect(() => {
-    if (active === 0) {
-      setVisible(false)
-    } else {
-      setVisible(true)
-    }
-    if (active === 1) {
-      socketSend({ terrainClassification: echartTabs[0] })
-    } else if (active === 2) {
-      socketSend({ terrainClassification: null })
-    } else if (active === 0 || active === 3) {
+  /* 内涝详情页标签切换点击事件 */
+  const handleWaterloggingTabClick = (index) => {
+    let terrainClassification = null
+    if (index === 1) {
+      terrainClassification = echartTabs[0]
+    } else if (index === 2) {
+      terrainClassification = null
+    } else if (index === 0 || index === 3) {
       let data = waterloggingTabList.find((item) => {
-        return item.id === active
+        return item.id === index
       })
-      socketSend({
-        terrainClassification: {
-          layers: data.layers,
-        },
-      })
+      terrainClassification = {
+        layers: data.layers,
+      }
     }
-  }, [active])
+    socketSend({ waterloggingActive: index, terrainClassification })
+  }
 
   // 监听id变化
   useEffect(() => {
@@ -97,8 +75,6 @@ function index({ waterloggingId, place, active }, ref) {
       data[item] = itemData[item]
     })
     setData({ ...data })
-    socketSend({ waterloggingActive: 2 })
-    setVisible(true)
   }, [waterloggingId])
 
   /* 列表项点击事件 */
@@ -112,9 +88,7 @@ function index({ waterloggingId, place, active }, ref) {
     // })
     // setData({ ...data })
     // onItemClick(itemData.coordinates)
-    socketSend({ waterloggingActive: 2, checkedPoint: itemData })
-
-    setVisible(true)
+    socketSend({ checkedPoint: itemData })
   }
 
   /* 下拉框选择 */
@@ -153,38 +127,40 @@ function index({ waterloggingId, place, active }, ref) {
       {place === 0 && (
         <Box className={'leftBox leftBox_waterlogging'}>
           <Box className={'left'}>
-            <Title
-              title="易涝区列表"
-              style={{
-                marginBottom: '20px',
-              }}
-            ></Title>
-            <Grid container spacing={{ xs: 1 }} className="from">
-              <Grid item xs={6} className="from-item" display="flex" alignItems="center">
-                <FormLabel component="span" className="label">
-                  危险等级
-                </FormLabel>
-                <Input
-                  select
-                  required
-                  id="phoneInput"
-                  size="small"
-                  placeholder="危险等级"
-                  value={formParams.state}
-                  onChange={(e) => handleInputChange(e, 'state')}
-                  autoComplete="off"
-                  sx={{
-                    width: '70%',
-                  }}
-                >
-                  {hazardLevel.map((item, index) => (
-                    <MyMenuItem key={index} value={index}>
-                      {item}
-                    </MyMenuItem>
-                  ))}
-                </Input>
+            <Box className="top">
+              <Title
+                title="易涝区列表"
+                style={{
+                  marginBottom: '20px',
+                }}
+              ></Title>
+              <Grid container spacing={{ xs: 1 }} className="from">
+                <Grid item xs={6} className="from-item" display="flex" alignItems="center">
+                  <FormLabel component="span" className="label">
+                    危险等级
+                  </FormLabel>
+                  <Input
+                    select
+                    required
+                    id="phoneInput"
+                    size="small"
+                    placeholder="危险等级"
+                    value={formParams.state}
+                    onChange={(e) => handleInputChange(e, 'state')}
+                    autoComplete="off"
+                    sx={{
+                      width: '70%',
+                    }}
+                  >
+                    {hazardLevel.map((item, index) => (
+                      <MyMenuItem key={index} value={index}>
+                        {item}
+                      </MyMenuItem>
+                    ))}
+                  </Input>
+                </Grid>
               </Grid>
-            </Grid>
+            </Box>
             <Box className={'list'}>
               {list.map((item, index) => (
                 <Box onClick={() => handleItemClick(item)} className={'item ' + (item.id === data.id ? 'active' : '')}>
@@ -224,112 +200,116 @@ function index({ waterloggingId, place, active }, ref) {
         </Box>
       )}
 
-      <Fade in={visible && place === 2}>
+      <Fade in={place === 2}>
         <Box className={'rightBox rightBox_waterlogging'}>
-          <Box className="title_bar">
-            {active === 2 && (
-              <div className="title_info">
-                <span className="title">{data.title}</span>
+          <Box className="rightBox-warpper">
+            {/* 叉叉 */}
+            {active !== -1 && (
+              <div className="closeX-box">
+                <SvgIcon
+                  svgName="closeX"
+                  svgClass="closeX"
+                  onClick={() => {
+                    socketSend({ waterloggingActive: -1 })
+                  }}
+                ></SvgIcon>
+              </div>
+            )}
+            {/* 点位的详情 */}
+            <Box className="title_bar">
+              {active === -1 && (
+                <div className="title_info">
+                  <span className="title">{data.title}</span>
+                  <p
+                    className={
+                      'tigs ' + (data.state === 1 ? 'tigs_green' : data.state === 2 ? 'tigs_yellow' : 'tigs_red')
+                    }
+                  >
+                    {hazardLevel[data.state]}
+                  </p>
+                </div>
+              )}
+              {active === 1 && <span className="title_model">地物分类</span>}
+              {active === 3 && <span className="title_model">土壤湿度</span>}
+            </Box>
+            {active === -1 && (
+              <Box className="content_area ">
                 <p
-                  className={
-                    'tigs ' + (data.state === 1 ? 'tigs_green' : data.state === 2 ? 'tigs_yellow' : 'tigs_red')
-                  }
+                  className="mt font mt-30"
+                  style={{
+                    display: 'flex',
+                  }}
                 >
-                  {hazardLevel[data.state]}
+                  <span>位置：</span>
+                  <div>{data.position}</div>
+                </p>
+                <p className="mt font">易涝面积：{data.acreage}</p>
+                <p className="mt font">地理显示</p>
+                <img
+                  src={data.mapImg}
+                  style={{
+                    width: '100%',
+                  }}
+                ></img>
+              </Box>
+            )}
+            {/* 图表 */}
+            {(active === 1 || active === 3) && (
+              <Box className="content_model">
+                <div className="soilWaterContentEchart_box">
+                  {active == 1 ? (
+                    <Echarts options={surfaceCircularRingOption()}></Echarts>
+                  ) : (
+                    <Echarts options={circularRingOption()}></Echarts>
+                  )}
+                </div>
+                {active === 1 && (
+                  <div className="echart_tab_box">
+                    {echartTabs.map((item, index) => (
+                      <div className="echart_tab" onClick={() => handleEchartTabClick(item)}>
+                        <SvgIcon
+                          svgClass="icon"
+                          svgName={
+                            terrainClassificationActive && terrainClassificationActive.id === item.id
+                              ? item.activeIcon
+                              : item.icon
+                          }
+                        ></SvgIcon>
+                        <p
+                          style={{
+                            color:
+                              terrainClassificationActive && terrainClassificationActive.id === item.id
+                                ? '#77B5FF'
+                                : '#2D7FE0',
+                          }}
+                        >
+                          {item.label}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </Box>
+            )}
+            {/* 详情描述 */}
+            {active !== -1 && (
+              <div className="soilWaterContentDetails_box">
+                <p className="title">
+                  {/* {active === 0 ? 'DSM信息' : active === 1 ? '地物分类信息' : active === 2 ? '土壤湿度信息' : 'DOM信息'} */}
+                  {waterloggingTabList.find((item) => {
+                    return item.id === active
+                  }).title + '信息'}
+                </p>
+                <p className="details">
+                  {
+                    waterloggingTabList.find((item) => {
+                      return item.id === active
+                    }).details
+                  }
                 </p>
               </div>
             )}
-            {active === 1 && <span className="title_model">地物分类</span>}
-            {active === 3 && <span className="title_model">土壤湿度</span>}
-
-            {/* <SvgIcon
-              svgName="closeX"
-              svgClass="closeX"
-              onClick={() => {
-                setVisible(false)
-              }}
-            ></SvgIcon> */}
           </Box>
-          {active === 2 && (
-            <Box className="content_area ">
-              <p
-                className="mt font mt-30"
-                style={{
-                  display: 'flex',
-                }}
-              >
-                <span>位置：</span>
-                <div>{data.position}</div>
-              </p>
-              <p className="mt font">易涝面积：{data.acreage}</p>
-              <p className="mt font">地理显示</p>
-              <img
-                src={data.mapImg}
-                style={{
-                  width: '100%',
-                }}
-              ></img>
-            </Box>
-          )}
-          {(active === 1 || active === 3) && (
-            <Box className="content_model">
-              <div className="soilWaterContentEchart_box">
-                {active == 1 ? (
-                  <Echarts options={surfaceCircularRingOption()}></Echarts>
-                ) : (
-                  <Echarts options={circularRingOption()}></Echarts>
-                )}
-              </div>
-              {active === 1 && (
-                <div className="echart_tab_box">
-                  {echartTabs.map((item, index) => (
-                    <div className="echart_tab" onClick={() => handleEchartTabClick(item)}>
-                      <SvgIcon
-                        svgClass="icon"
-                        svgName={
-                          terrainClassificationActive && terrainClassificationActive.id === item.id
-                            ? item.activeIcon
-                            : item.icon
-                        }
-                      ></SvgIcon>
-                      <p
-                        style={{
-                          color:
-                            terrainClassificationActive && terrainClassificationActive.id === item.id
-                              ? '#77B5FF'
-                              : '#2D7FE0',
-                        }}
-                      >
-                        {item.label}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-              <div className="soilWaterContentDetails_box">
-                <p className="title">{active === 1 ? '地物分类信息' : '土壤湿度信息'}</p>
-                <p className="details">
-                  {active === 1
-                    ? detailsInfo[0].map((item) => {
-                        return (
-                          <span>
-                            {item}
-                            <br />
-                          </span>
-                        )
-                      })
-                    : detailsInfo[1].map((item) => {
-                        return (
-                          <span>
-                            {item} <br />
-                          </span>
-                        )
-                      })}
-                  {/* {echartTabs[terrainClassificationActive].waterContentData.description} */}
-                </p>
-              </div>
-            </Box>
-          )}
         </Box>
       </Fade>
       {place === 1 && (
@@ -346,6 +326,15 @@ function index({ waterloggingId, place, active }, ref) {
               <span>{colourStripData[active].bottom}</span>
             </Box>
           )}
+
+          {/* 内涝详情中的菜单 */}
+          {
+            <WaterloggingTab
+              list={waterloggingTabList}
+              active={active}
+              onChange={handleWaterloggingTabClick}
+            ></WaterloggingTab>
+          }
         </>
       )}
     </>

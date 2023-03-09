@@ -2,44 +2,42 @@
   position: relative;
   width: 100%;
   height: 100%;
-  // height: 1920px;
-  
   box-shadow: inset 0px 0px 250px 30px #001031 !important;
   overflow: auto;
-  
   .map-box{
     position: absolute;
     z-index: 998;
     width: 100%;
     height: 100%;
+    overflow: hidden;
   }
 
-  // 退出乔司按钮
-  .quit_btn{
-    width: 124px;
-    height: 124px;
-    position: absolute;
-    top: 5px;
-    left:  calc(50% - 62px);
-    z-index: 999;
-    cursor: pointer;
-    transition: all 0.5s ease-out;
-    transform-origin: center;
+  // // 退出乔司按钮
+  // .quit_btn{
+  //   width: 124px;
+  //   height: 124px;
+  //   position: absolute;
+  //   top: 5px;
+  //   left:  calc(50% - 62px);
+  //   z-index: 999;
+  //   cursor: pointer;
+  //   transition: all 0.5s ease-out;
+  //   transform-origin: center;
     
-    &:hover{
-      transform: rotate(360deg);
-    }
-  }
+  //   &:hover{
+  //     transform: rotate(360deg);
+  //   }
+  // }
 
-  // 进入乔司按钮
-  .enter_btn{
-    position: absolute;
-    bottom:  40px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 999;
-    cursor: pointer;
-  }
+  // // 进入乔司按钮
+  // .enter_btn{
+  //   position: absolute;
+  //   bottom:  40px;
+  //   left: 50%;
+  //   transform: translateX(-50%);
+  //   z-index: 999;
+  //   cursor: pointer;
+  // }
 }
 
 /* 沉降色带 */
@@ -52,28 +50,3 @@
   bottom: 100px;
 }
 
-// 内涝色带
-.colour_strip_details-box{
-  position: absolute;
-  z-index: 999;
-  right: 100px;
-  bottom: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  .colour_strip{
-    width: 11px;
-    height:  303px;
-  }
-  .colour_strip_DSM{
-    width: 40px;
-    height:  500px;
-  }
-  span{
-    color: #FFFFFF;
-    font-size: 14px;
-    line-height: 14px;
-    margin: 10px 0;
-  }
-}

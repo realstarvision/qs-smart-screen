@@ -280,32 +280,46 @@ export function doubleLinearOption({ unit = "" }) {
     dataZoom: [
       {
         type: 'slider',
-        realtime: true,
-        start: 0,
-        end: 100,  // 数据窗口范围的结束百分比。范围是：0 ~ 100。
-        height: 7, //组件高度
-        left: 5, //左边的距离
-        right: 5, //右边的距离
-        bottom: 0, //下边的距离
-        show: false,  // 是否展示
-        fillerColor: "rgba(17, 100, 210, 0.42)", // 滚动条颜色
-        borderColor: "rgba(17, 100, 210, 0.12)",
-        handleSize: 0,      //两边手柄尺寸
-        showDetail: false, //拖拽时是否展示滚动条两侧的文字
-        zoomLock: true,         //是否只平移不缩放
-        moveOnMouseMove: false, //鼠标移动能触发数据窗口平移
-        //zoomOnMouseWheel: false, //鼠标移动能触发数据窗口缩放
-
-        //下面是自己发现的一个问题，当点击滚动条横向拖拽拉长滚动条时，会出现文字重叠，导致效果很不好，以此用下面四个属性进行设置，当拖拽时，始终保持显示六个柱状图，可结合自己情况进行设置。添加这个属性前后的对比见**图二**
-        startValue: 0, // 从头开始。
-        endValue: 6,  // 最多六个
-        minValueSpan: 6,  // 放大到最少几个
-        maxValueSpan: 6,  //  缩小到最多几个
+        show: false,
+        xAxisIndex: [0],
+        left: '93%',
+        startValue: 3, // 从头开始。
+        endValue: 0, // 一次性展示4个。
+        handleSize: 0,
+        filterMode: 'empty',
+        handleStyle: {
+          borderCap: 'round',
+          borderWidth: 0
+        }
       },
       {
-        type: "inside",  // 支持内部鼠标滚动平移
-        start: 0,
-        end: 100,
+        type: 'inside',
+        xAxisIndex: [0],
+        startValue: 3, // 从头开始。
+        endValue: 0, // 一次性展示4个。
+        zoomOnMouseWheel: false,  // 关闭滚轮缩放
+        moveOnMouseWheel: true, // 开启滚轮平移
+        moveOnMouseMove: true  // 鼠标移动能触发数据窗口平移 
+      },
+      {
+        type: 'slider',
+        show: false,
+        xAxisIndex: [1],
+        left: '93%',
+        startValue: 3, // 从头开始。
+        endValue: 0, // 一次性展示4个。
+        handleSize: 0,
+        filterMode: 'empty',
+        handleStyle: {
+          borderCap: 'round',
+          borderWidth: 0
+        }
+      },
+      {
+        type: 'inside',
+        xAxisIndex: [1],
+        startValue: 3, // 从头开始。
+        endValue: 0, // 一次性展示4个。
         zoomOnMouseWheel: false,  // 关闭滚轮缩放
         moveOnMouseWheel: true, // 开启滚轮平移
         moveOnMouseMove: true  // 鼠标移动能触发数据窗口平移 

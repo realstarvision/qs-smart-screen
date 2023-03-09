@@ -6,6 +6,7 @@ import Echarts from '@/components/Echarts'
 import Title from '@/pages/common/ModuleTitle'
 import HexagonModule from '../../HexagonModule'
 // 数据
+import chartsAnimation from '@/utils/chartsAnimation'
 import { setDangerLevel } from '@/store/module/dangerLevel'
 import { socketSend } from '@/utils/websocket'
 import './style.scss'
@@ -35,22 +36,6 @@ export default function index({ mapTabActive }) {
 
   // 初始化
   useEffect(() => {
-    if (historyDataEchartRef.current) {
-      setTimeout(() => {
-        historyDataTimer = eventProcessingChart()
-      }, 0)
-    }
-  }, [historyDataEchartRef.current])
-
-  useEffect(() => {
-    if (dangerLevelEchartRef.current) {
-      setTimeout(() => {
-        areaChangeTimer = areaChangeChart()
-      }, 0)
-    }
-  }, [dangerLevelEchartRef.current])
-
-  useEffect(() => {
     return function () {
       clearInterval(historyDataTimer)
       clearInterval(areaChangeTimer)
@@ -58,6 +43,20 @@ export default function index({ mapTabActive }) {
       areaChangeTimer = null
     }
   }, [])
+  useEffect(() => {
+    if (historyDataEchartRef.current) {
+      setTimeout(() => {
+        historyDataTimer = chartsAnimation(historyDataEchartRef.current, historyDataTimer)
+      }, 0)
+    }
+  }, [historyDataEchartRef.current])
+  useEffect(() => {
+    if (dangerLevelEchartRef.current) {
+      setTimeout(() => {
+        areaChangeTimer = chartsAnimation(dangerLevelEchartRef.current, areaChangeTimer)
+      }, 0)
+    }
+  }, [dangerLevelEchartRef.current])
 
   useEffect(() => {
     /* 重置危险等级 */
@@ -107,11 +106,6 @@ export default function index({ mapTabActive }) {
     // 图表变化
     // chartsChange()
   }, [mapTabActive])
-
-  useEffect(() => {
-    // 图表变化
-    // chartsChange()
-  }, [subsidenceAreaEchartRef.current])
 
   // 沉降面积圆环和历史数据折线图的变化
   function chartsChange() {
@@ -182,61 +176,6 @@ export default function index({ mapTabActive }) {
     // }
   }
 
-  // 定时器滚动事件
-  function eventProcessingChart() {
-    // 定时器
-    console.log(historyDataEchartRef.current.myChart)
-    if (historyDataTimer) {
-      clearInterval(historyDataTimer)
-    }
-    let timer = setInterval(function () {
-      // 每次向后滚动一个，最后一个从头开始。
-      let option = historyDataEchartRef.current.myChart.getModel().option
-      let obj
-      if (option.dataZoom[0].endValue == 6) {
-        obj = {
-          startValue: 0,
-          endValue: 4,
-        }
-      } else {
-        obj = {
-          startValue: option.dataZoom[0].startValue + 1,
-          endValue: option.dataZoom[0].endValue + 1,
-        }
-      }
-      historyDataEchartRef.current.setOption({
-        dataZoom: [obj],
-      })
-    }, 3500)
-    return timer
-  }
-  function areaChangeChart() {
-    // 定时器
-    if (areaChangeTimer) {
-      clearInterval(areaChangeTimer)
-    }
-    let timer = setInterval(function () {
-      // 每次向后滚动一个，最后一个从头开始。
-      let option = dangerLevelEchartRef.current.myChart.getModel().option
-      let obj
-      if (option.dataZoom[0].endValue == 6) {
-        obj = {
-          endValue: 4,
-          startValue: 0,
-        }
-      } else {
-        obj = {
-          endValue: option.dataZoom[0].endValue + 1,
-          startValue: option.dataZoom[0].startValue + 1,
-        }
-      }
-      dangerLevelEchartRef.current.setOption({
-        dataZoom: [obj],
-      })
-    }, 3500)
-    return timer
-  }
-
   // 历史统计图表鼠标移入移出事件
   const handleHistoryDataMouse = (type) => {
     if (type === 'enter') {
@@ -245,7 +184,7 @@ export default function index({ mapTabActive }) {
         historyDataTimer = null
       }
     } else if (type === 'leave') {
-      historyDataTimer = eventProcessingChart()
+      historyDataTimer = chartsAnimation(historyDataEchartRef.current, historyDataTimer)
     }
   }
 
@@ -257,7 +196,7 @@ export default function index({ mapTabActive }) {
         areaChangeTimer = null
       }
     } else if (type === 'leave') {
-      areaChangeTimer = areaChangeChart()
+      areaChangeTimer = chartsAnimation(dangerLevelEchartRef.current, areaChangeTimer)
     }
   }
 

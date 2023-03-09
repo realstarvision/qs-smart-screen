@@ -29,7 +29,7 @@ export function circularRingOption() {
       },
       subtextStyle: {
         color: '#ffffff',
-        fontSize: '0.9rem',
+        fontSize: '1rem',
       },
       // textVerticalAlign: 'middle',
 
@@ -64,7 +64,7 @@ export function circularRingOption() {
       itemHeight: 5,
       textStyle: {
         color: "#C3C7C7",
-        fontSize: '1rem',
+        fontSize: '0.8rem',
       },
       icon: "circle"
     },

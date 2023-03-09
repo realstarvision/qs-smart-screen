@@ -86,38 +86,40 @@ export default function index({ garbageId, place }) {
       {place === 0 && (
         <Box className={'leftBox leftBox_Garbage'}>
           <Box className={'left'}>
-            <Title
-              title="垃圾桶设备列表"
-              style={{
-                marginBottom: '20px',
-              }}
-            ></Title>
-            <Grid container spacing={{ xs: 1 }} className="from">
-              <Grid item xs={6} className="from-item" display={'flex'} alignItems={'center'}>
-                <FormLabel component="span" className="label">
-                  设备状态
-                </FormLabel>
-                <Input
-                  select
-                  required
-                  id="phoneInput"
-                  size="small"
-                  placeholder="设备状态"
-                  value={formParams.state}
-                  onChange={(e) => handleInputChange(e, 'state')}
-                  autoComplete="off"
-                  sx={{
-                    width: '70%',
-                  }}
-                >
-                  {deviceState.map((item, index) => (
-                    <MyMenuItem key={index} value={item}>
-                      {item}
-                    </MyMenuItem>
-                  ))}
-                </Input>
+            <Box className="top">
+              <Title
+                title="垃圾桶设备列表"
+                style={{
+                  marginBottom: '20px',
+                }}
+              ></Title>
+              <Grid container spacing={{ xs: 1 }} className="from">
+                <Grid item xs={6} className="from-item" display={'flex'} alignItems={'center'}>
+                  <FormLabel component="span" className="label">
+                    设备状态
+                  </FormLabel>
+                  <Input
+                    select
+                    required
+                    id="phoneInput"
+                    size="small"
+                    placeholder="设备状态"
+                    value={formParams.state}
+                    onChange={(e) => handleInputChange(e, 'state')}
+                    autoComplete="off"
+                    sx={{
+                      width: '70%',
+                    }}
+                  >
+                    {deviceState.map((item, index) => (
+                      <MyMenuItem key={index} value={item}>
+                        {item}
+                      </MyMenuItem>
+                    ))}
+                  </Input>
+                </Grid>
               </Grid>
-            </Grid>
+            </Box>
             <Box className={'list'}>
               {list.map((item, index) => (
                 <Box onClick={() => handleItemClick(item)} className={'item ' + (item.id === data.id ? 'active' : '')}>
@@ -159,61 +161,64 @@ export default function index({ garbageId, place }) {
       )}
       <Fade in={visible && place === 2}>
         <Box className={'rightBox rightBox_Garbage'}>
-          <Box className="title_bar">
-            <div className="title_info">
-              <span className="title">{data.code}</span>
-              <p
-                className={
-                  'tigs ' + (data.state === '在线' ? 'tigs_green' : data.state === '离线' ? 'tigs_red' : 'tigs_yellow')
-                }
-              >
-                {data.state}
-              </p>
-            </div>
-            {/* <SvgIcon
+          <Box className="rightBox-warpper">
+            <Box className="title_bar">
+              <div className="title_info">
+                <span className="title">{data.code}</span>
+                <p
+                  className={
+                    'tigs ' +
+                    (data.state === '在线' ? 'tigs_green' : data.state === '离线' ? 'tigs_red' : 'tigs_yellow')
+                  }
+                >
+                  {data.state}
+                </p>
+              </div>
+              {/* <SvgIcon
               svgName="closeX"
               svgClass="closeX"
               onClick={() => {
                 setVisible(false)
               }}
             ></SvgIcon> */}
-          </Box>
-          {/* <img
+            </Box>
+            {/* <img
             src={rectangle}
             style={{
               width: '70%',
               marginTop: '30px',
             }}
           /> */}
-          <p className="mt font">地址：{data.address}</p>
-          <p
-            className="mt font"
-            style={{
-              display: 'flex',
-            }}
-          >
-            <span>经纬度：</span>
-            <div>
-              {data.coordinates.length > 0 ? data.coordinates[0] : ''}
-              <br />
-              {data.coordinates.length > 0 ? data.coordinates[1] : ''}
-            </div>
-          </p>
-          <p className="mt font">视频监控</p>
+            <p className="mt font">地址：{data.address}</p>
+            <p
+              className="mt font"
+              style={{
+                display: 'flex',
+              }}
+            >
+              <span>经纬度：</span>
+              <div>
+                {data.coordinates.length > 0 ? data.coordinates[0] : ''}
+                <br />
+                {data.coordinates.length > 0 ? data.coordinates[1] : ''}
+              </div>
+            </p>
+            <p className="mt font">视频监控</p>
 
-          <video
-            key={data.id}
-            className="mt-10"
-            autoPlay={true}
-            loop
-            controls
-            style={{
-              width: '100%',
-            }}
-            src={data.video}
-          >
-            {/* <source src={data.video} type="video/mp4"></source> */}
-          </video>
+            <video
+              key={data.id}
+              className="mt-10"
+              autoPlay={true}
+              loop
+              controls
+              style={{
+                width: '100%',
+              }}
+              src={data.video}
+            >
+              {/* <source src={data.video} type="video/mp4"></source> */}
+            </video>
+          </Box>
         </Box>
       </Fade>
 

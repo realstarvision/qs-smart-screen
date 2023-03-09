@@ -106,17 +106,6 @@
       min-height: 310px;
       height: 35vh;
     }
-    .unit{
-      position: absolute;
-      left: 20px;
-      top: 30px;
-      z-index: 999;
-      color: #fff;
-      font-size: 12px;
-      opacity: 0.8;
-      font-weight: 300;
-    }
-
   }
 
 
@@ -145,16 +134,11 @@
 
 
   .event_processing_garbageSorting{
-    // margin-top: 0.5vh;
-    // margin-bottom: 35px;
     display: flex;
     justify-content: space-between;
     .deviceList_table{
       min-height: 150px !important;
       height: 25vh;
     }
-  }
-  .garbage_classification_point{
-    // height: 360px;
   }
 }

@@ -1,3 +1,34 @@
+import danger from '@/assets/image/png/hexagon/danger.png'
+import steady from '@/assets/image/png/hexagon/steady.png'
+import fluctuate from '@/assets/image/png/hexagon/fluctuate.png'
+import dangerChecked from '@/assets/image/png/hexagon/danger_checked.png'
+import steadyChecked from '@/assets/image/png/hexagon/steady_checked.png'
+import fluctuateChecked from '@/assets/image/png/hexagon/fluctuate_checked.png'
+
+export let hexagonList = [
+  {
+    type: 'fluctuate',
+    label: '告警',
+    img: fluctuate,
+    checkImg: fluctuateChecked,
+    value: '18',
+  },
+  {
+    type: 'steady',
+    label: '正常',
+    img: steady,
+    checkImg: steadyChecked,
+    value: '472',
+  },
+  {
+    type: 'danger',
+    label: '离线',
+    img: danger,
+    checkImg: dangerChecked,
+    value: '10',
+  },
+]
+
 /* 公告信息表格数据 */
 export let announcementColumns = [
   {

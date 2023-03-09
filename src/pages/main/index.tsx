@@ -22,13 +22,12 @@ import { polygonProcess } from '@/utils/polygon'
 // 数据及样式
 import { wmsList, mapTabs, waterloggingTabList } from './json'
 import { DSMHeightPoint } from '@/components/Map/json'
-import { roadPoinList, bridgePoinList, keyArea, garbageSorting, wellLid, waterlogging } from '@/components/Map/json'
+import { keyArea, garbageSorting, wellLid, waterlogging } from '@/components/Map/json'
 import { setTerrainClassificationActive } from '@/store/module/terrainClassificationActive'
 import { setSwitch } from '@/store/module/switch'
 import { setDangerLevel } from '@/store/module/dangerLevel'
 import './style.scss'
 // 图片
-
 import colour_strip_safety from '@/assets/image/color_bar/colour_strip_safety.png'
 
 export default function index({ place }: { place?: number }) {
@@ -38,10 +37,10 @@ export default function index({ place }: { place?: number }) {
   let dangerLevel = useSelector((state: { dangerLevel }) => state.dangerLevel.value)
   // 菜单选择   0:护民地质安全监测   1:保民降水内涝监测   2:便民垃圾分类监测
   let [active, setActive] = useState(0)
+  // 内涝详情标签切换   0:DSM模型   1：地物分类   2：DOM模型    3：土壤湿度
+  let [waterloggingActive, setWaterloggingActive] = useState(-1)
   // 沉降标签切换   0:乔司全域地表沉降   1：主要道路地表沉降   2：桥梁立交地表沉降    3：重点区域地表沉降
   let [mapTabActive, setMapTabActive] = useState(0)
-  // 内涝详情标签切换   0:DSM模型   1：地物分类   2：DOM模型    3：土壤湿度
-  let [waterloggingActive, setWaterloggingActive] = useState(2)
   // 选中点的信息
   let [checkedPoint, setCheckedPoint] = useState(null)
   // 标记点列表
@@ -112,48 +111,6 @@ export default function index({ place }: { place?: number }) {
     })
   }, [])
 
-  /* 沉降监听六边形点击事件 */
-  useEffect(() => {
-    // 调用接口获取数据
-    // let list = [...keyArea, ...bridgePoinList, ...roadPoinList]
-    // let list = []
-    // switch (mapTabActive) {
-    //   case 0:
-    //     list = [...keyArea, ...bridgePoinList, ...roadPoinList]
-    //     break
-    //   case 1:
-    //     list = roadPoinList
-    //     break
-    //   case 2:
-    //     list = bridgePoinList
-    //     break
-    //   case 3:
-    //     list = keyArea
-    //     break
-    // }
-    // let result = []
-    // // 危险
-    // if (dangerLevel.danger) {
-    //   let dangerList = list.filter((item) => {
-    //     return item.type === 'danger'
-    //   })
-    //   result = result.concat(dangerList)
-    // }
-    // // 波动
-    // if (dangerLevel.fluctuate) {
-    //   let fluctuateList = list.filter((item) => {
-    //     return item.type === 'fluctuate'
-    //   })
-    //   result = result.concat(fluctuateList)
-    // }
-    // // 全部未选
-    // if (!dangerLevel.fluctuate && !dangerLevel.danger && !dangerLevel.steady && mapTabActive !== 0) {
-    //   result = list
-    // }
-    // // 添加点位
-    // setPolygonList(result)
-  }, [JSON.stringify(dangerLevel)])
-
   /* 监听沉降标签切换 */
   useEffect(() => {
     // 全局存储卫星列表数据
@@ -219,8 +176,6 @@ export default function index({ place }: { place?: number }) {
   /* 设置标记列表数据 */
   function setListData(menuId, mapTabId) {
     if (menuId === 0) {
-      // let list =
-      //   mapTabId === 1 ? [...roadPoinList] : mapTabId === 2 ? [...bridgePoinList] : mapTabId === 3 ? [...keyArea] : []
       let list = mapTabId === 3 ? [...keyArea] : []
       setPolygonList(list)
       setMarkerList([])
@@ -236,7 +191,7 @@ export default function index({ place }: { place?: number }) {
   /* 详情页返回 */
   const handleBack = () => {
     if (active === 1) {
-      socketSend({ waterloggingActive: 2 })
+      socketSend({ waterloggingActive: -1 })
     }
     // 内涝tiff信息,点位信息
     socketSend({ checkedPoint: null, terrainClassification: null })
@@ -248,23 +203,13 @@ export default function index({ place }: { place?: number }) {
     }
   }
 
-  /* 内涝详情页标签切换点击事件 */
-  const handleWaterloggingTabClick = (index) => {
-    socketSend({ waterloggingActive: index })
-  }
-
   return (
     <Box className="main-container">
       {/*place:  0 左边  1 中间   2 右边 */}
       {place === 0 ? (
         <>{!checkedPoint && <SideModule active={active} place={0} mapTabActive={mapTabActive} menuActive={active} />}</>
       ) : place === 1 ? (
-        <Box
-          className="map-box"
-          style={{
-            overflow: 'hidden',
-          }}
-        >
+        <Box className="map-box">
           <Map
             ref={map}
             markerList={markerList}
@@ -302,15 +247,6 @@ export default function index({ place }: { place?: number }) {
           <CSSTransition in={active === 0} timeout={500} classNames="fade-translate" unmountOnExit={true}>
             <img src={colour_strip_safety} className="colour_strip_safety" />
           </CSSTransition>
-
-          {/* 内涝详情中的菜单 */}
-          {checkedPoint && checkedPoint.type === 'waterlogging' && (
-            <WaterloggingTab
-              list={waterloggingTabList}
-              active={waterloggingActive}
-              onChange={handleWaterloggingTabClick}
-            ></WaterloggingTab>
-          )}
         </Box>
       ) : (
         <>{!checkedPoint && <SideModule active={active} place={2} />}</>
@@ -325,11 +261,7 @@ export default function index({ place }: { place?: number }) {
         ></KeyAreas>
       </CSSTransition> */}
       {active === 0 && checkedPoint && (
-        <KeyAreas
-          place={place}
-          keyAreaId={checkedPoint.id}
-          type={mapTabActive === 0 ? checkedPoint.type : checkedPoint.pointType}
-        ></KeyAreas>
+        <KeyAreas place={place} keyAreaId={checkedPoint.id} type={checkedPoint.type}></KeyAreas>
       )}
 
       {/* 水井 , 水涝 */}

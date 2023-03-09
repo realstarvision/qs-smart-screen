@@ -1,42 +1,15 @@
 
 .rightBox_waterlogging{
-  .closeX{
-    cursor: pointer;
-    &:hover{
-      opacity: 0.5;
-    }
-    width: 30px;
-    height: 30px;
+  .closeX-box{
+    text-align: right;
   }
-  .title_bar{
-    display: flex;
-    justify-content: space-between;
-    .title_info{
-      display: flex;
-      align-items: center;
-      .title{
-        font-size: 16px;
-      }
-      .tigs{
-        width: 96px;
-        height: 32px;
-        margin-left: 50px;
-        line-height: 32px;
-        border-radius: 3px ;
-        border: 2px solid #DD2121;
-        display: inline-block;
-        font-size: 14px;
-        color: #DD2121;
-        text-align: center;
-      }
-    }
-    .title_model{
-      font-size: 16px;
-      font-weight: bold;
-      line-height: 20px;
-      color: #FFFFFF;
-    }
+  .title_model{
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #FFFFFF;
   }
+}
 
 
   // 易涝区域
@@ -53,7 +26,7 @@
   .content_model{
     .soilWaterContentEchart_box{
       height: 300px;
-      margin-top: 50px;
+      margin-top: 30px;
     }
     .echart_tab_box{
       padding: 0 50px ;
@@ -76,93 +49,26 @@
         }
       }
     }
-
-    .soilWaterContentDetails_box{
-      margin-top: 30px;
-      .title{
-        font-size: 16px;
-        font-weight: bold;
-      }
-      .details{
-        margin-top: 20px;
-        font-size: 14px;
-        line-height: 22px;
-        font-weight: 400;
-        span{
-          text-indent: 2em;
-          display: inline-block
-        }
-      }
-    }
   }
 
- 
-  .mt{
-    margin-top: 20px;
-  }
-  .font{
-    font-size: 14px;
-    font-weight: 400;
-    color: #FFFFFF;
-    line-height: 22px;
-  }
-}
-.leftBox_waterlogging{
-  .left{
-    display: grid;
-    grid-template-rows: auto 1fr;
-    img{
-      margin-bottom: 20px;
-      width: 100%;
+  .soilWaterContentDetails_box{
+    margin-top: 30px;
+    .title{
+      font-size: 16px;
+      font-weight: bold;
     }
-    .list{
-      height: 67vh;
-      overflow: auto;
-      .item{
-        margin-bottom: 5px;
-        height: 110px;
-        padding: 20px 10px;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        cursor: pointer;
-        &:hover{
-          background: #001B47;
-        }
-        .title{
-          justify-content: space-between;
-          >span{
-            display: flex;
-            align-items: center;
-            .tigs{
-              text-align: center;
-            }
-          }
-        }
-        .title,.time{
-          display: flex;
-          align-items: center;
-          font-size: 14px;
-          color: #FFFFFF;
-          line-height: 22px;
-        }
-      }
-      .active{
-        background: #001B47;
-      }
-    }
-  }
-}
-
-.from{
-  margin-bottom: 15px;
-  .from-item{
-    .label{
+    .details{
+      margin-top: 20px;
       font-size: 14px;
-      margin-right: 10px;
+      line-height: 22px;
+      font-weight: 400;
+      span{
+        text-indent: 2em;
+        display: inline-block
+      }
     }
   }
+.leftBox_waterlogging{
 }
 
 

@@ -623,18 +623,6 @@ export let wellLid2 = []
 
 /* 内涝 */  // state: 1低危险区  2中风险区  3高风险区
 export let waterlogging = [
-  // {
-  //   id: 1,
-  //   title: 'SN10007',
-  //   coordinates: [30.353261, 120.287161],
-  //   icon: waterlogging_green,
-  //   state: 1,
-  //   place: '浙江省杭州市临平区乔司街道',
-  //   alarmTime: '2022-12-06 10:11:23',
-  //   joinTime: '2022-01-11 12:11:11',
-  //   acreage: '10m²',
-  //   mapImg: SN10007Img
-  // },
   {
     id: 1,
     code: 'SN10008',

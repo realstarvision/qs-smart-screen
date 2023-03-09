@@ -1,23 +1,21 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { Box, Grid } from '@mui/material'
 import Title from '@/pages/common/ModuleTitle'
 import Table from '@/components/Table'
 import Echarts from '@/components/Echarts'
 import HexagonModule from '../../HexagonModule'
 // import EventCount from '../../EventCount'
+import chartsAnimation from '@/utils/chartsAnimation'
 import AnnouncementDialog from '@/pages/Dialog/AnnouncementDialog'
 import { doubleBarOption, triangleOption } from '../echartOption'
 import { announcementColumns, announcementListData, deviceListColumns, garbageSorting } from './json'
 import './style.scss'
 
 // 图片
-import event_count from '@/assets/image/png/event_count.png'
 import danger from '@/assets/image/png/hexagon/danger.png'
 import steady from '@/assets/image/png/hexagon/steady.png'
-import fluctuate from '@/assets/image/png/hexagon/fluctuate.png'
 import dangerChecked from '@/assets/image/png/hexagon/danger_checked.png'
 import steadyChecked from '@/assets/image/png/hexagon/steady_checked.png'
-import fluctuateChecked from '@/assets/image/png/hexagon/fluctuate_checked.png'
 
 let hexagonList = [
   {
@@ -40,8 +38,40 @@ let hexagonList = [
 let xLabel = ['新建社区', '乔司社区', 'aa社区', 'bb社区', 'cc社区', 'dd社区']
 let yData = [14, 19, 11, 12, 10, 18]
 
+let garbagePointTimer = null
+
 export default function index() {
   const announcementDialogRef = useRef(null)
+  const garbagePointRef = useRef(null)
+
+  useEffect(() => {
+    if (garbagePointRef.current) {
+      setTimeout(() => {
+        garbagePointTimer = chartsAnimation(garbagePointRef.current, garbagePointTimer, xLabel.length - 1)
+      }, 0)
+    }
+  }, [garbagePointRef.current])
+
+  // 初始化
+  useEffect(() => {
+    return function () {
+      clearInterval(garbagePointTimer)
+      garbagePointTimer = null
+    }
+  }, [])
+
+  // 图表鼠标移入移出事件
+  const handleMouse = (action) => {
+    if (action === 'enter') {
+      if (garbagePointTimer) {
+        clearInterval(garbagePointTimer)
+        garbagePointTimer = null
+      }
+    } else if (action === 'leave') {
+      garbagePointTimer = chartsAnimation(garbagePointRef.current, garbagePointTimer, xLabel.length - 1)
+    }
+  }
+
   /* 表格行点击事件 */
   const handleRowClick = (row) => {
     announcementDialogRef.current.handleSetData(row)
@@ -60,7 +90,11 @@ export default function index() {
         </Grid>
         <Grid xs={6} item className="garbage_classification_point">
           <Title size="normal" title="垃圾站点位" />
-          <Echarts options={triangleOption(xLabel, yData, '垃圾站点位数量（个）')}></Echarts>
+          <Echarts
+            onMouseEnter={() => handleMouse('enter')}
+            onMouseLeave={() => handleMouse('leave')}
+            options={triangleOption(xLabel, yData, '垃圾站点位数量（个）')}
+          ></Echarts>
         </Grid>
       </Grid>
       <Grid container spacing={6} className="event_processing_garbageSorting mt-20">

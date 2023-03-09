@@ -9,43 +9,11 @@ import { socketSend } from '@/utils/websocket'
 import { useSelector, useDispatch } from 'react-redux'
 import { setSwitch } from '@/store/module/switch'
 import { triangleOption, circularRingOption, circularRingWaterloggingOption, lineOrdinary } from '../echartOption'
+import chartsAnimation from '@/utils/chartsAnimation'
+import { hexagonList } from './json'
 
 // 图片
-import weather_data from '@/assets/image/test/weather_data.png'
 import doughnut_chart_style from '@/assets/image/png/doughnut_chart_style.png'
-import danger from '@/assets/image/png/hexagon/danger.png'
-import steady from '@/assets/image/png/hexagon/steady.png'
-import fluctuate from '@/assets/image/png/hexagon/fluctuate.png'
-import dangerChecked from '@/assets/image/png/hexagon/danger_checked.png'
-import steadyChecked from '@/assets/image/png/hexagon/steady_checked.png'
-import fluctuateChecked from '@/assets/image/png/hexagon/fluctuate_checked.png'
-
-let hexagonList = [
-  {
-    type: 'fluctuate',
-    label: '告警',
-    img: fluctuate,
-    checkImg: fluctuateChecked,
-    value: '18',
-  },
-  {
-    type: 'steady',
-    label: '正常',
-    img: steady,
-    checkImg: steadyChecked,
-    value: '472',
-  },
-  {
-    type: 'danger',
-    label: '离线',
-    img: danger,
-    checkImg: dangerChecked,
-    value: '10',
-  },
-]
-
-let xLabel = ['新建社区', '乔司社区', 'aa社区', 'bb社区', 'cc社区', 'dd社区']
-let yData = [14.1, 19.6, 11.3, 12.5, 10.6, 18.6]
 
 /* 图表数据 */
 export let dangerList = [
@@ -119,12 +87,16 @@ export default function index() {
   const dispatch = useDispatch()
   let switchData = useSelector((state: { Switch }) => state.Switch.value)
   const waterAreaRef = useRef(null)
+
+  useEffect(() => {
+    if (waterAreaRef.current) {
+      setTimeout(() => {
+        waterAreaTimer = chartsAnimation(waterAreaRef.current, waterAreaTimer)
+      }, 0)
+    }
+  }, [waterAreaRef.current])
   // 初始化
   useEffect(() => {
-    setTimeout(() => {
-      waterAreaTimer = eventProcessingChart()
-    }, 0)
-
     return function () {
       clearInterval(waterAreaTimer)
       waterAreaTimer = null
@@ -150,33 +122,6 @@ export default function index() {
     }
   }
 
-  // 定时器滚动事件
-  function eventProcessingChart() {
-    // 定时器
-    if (waterAreaTimer) {
-      clearInterval(waterAreaTimer)
-    }
-    return setInterval(function () {
-      // 每次向后滚动一个，最后一个从头开始。
-      let option = waterAreaRef.current.myChart.getModel().option
-      let obj
-      if (option.dataZoom[0].endValue == 6) {
-        obj = {
-          endValue: 4,
-          startValue: 0,
-        }
-      } else {
-        obj = {
-          endValue: option.dataZoom[0].endValue + 1,
-          startValue: option.dataZoom[0].startValue + 1,
-        }
-      }
-      waterAreaRef.current.setOption({
-        dataZoom: [obj],
-      })
-    }, 3500)
-  }
-
   // 事件处理统计图表鼠标移入移出事件
   const handleMouse = (type) => {
     if (type === 'enter') {
@@ -185,7 +130,7 @@ export default function index() {
         waterAreaTimer = null
       }
     } else if (type === 'leave') {
-      waterAreaTimer = eventProcessingChart()
+      waterAreaTimer = chartsAnimation(waterAreaRef.current, waterAreaTimer)
     }
   }
   /* 查看详情按钮 */
@@ -272,65 +217,6 @@ export default function index() {
           </Box>
         </Grid>
       </Grid>
-
-      {/* <Grid container spacing={6} className="waterlogging-grid">
-        <Grid xs={4} item>
-          <Title title="气象数据" size="small"></Title>
-          <Grid
-            container
-            sx={{
-              padding: '0 23px',
-            }}
-          >
-            {meteorologicalData.map((data) => (
-              <Grid item xs={6}>
-                <WeatherModule data={data}></WeatherModule>
-              </Grid>
-            ))}
-          </Grid>
-        </Grid>
-        <Grid xs={8} item>
-          <Box className="water_acreage">
-            <Title style={{ marginBottom: '10px' }} title="水体面积监测"></Title>
-            <Echarts options={triangleOption(xLabel, yData)}></Echarts>
-          </Box>
-        </Grid>
-      </Grid>
-      <Grid container spacing={6}>
-        <Grid xs={4} item className="device_monitoring">
-          <Title
-            title="设备监测"
-            size={'small'}
-            style={{
-              marginBottom: '60px',
-            }}
-          ></Title>
-          <HexagonModule list={hexagonList}></HexagonModule>
-          <div className="switch">
-            <span>水井设备分布</span>
-            <Switch checked={false} onChange={(e) => handleSwitch(e, 'wellLid')}></Switch>
-          </div>
-          <span className="device_count">设备总数：500</span>
-        </Grid>
-        <Grid xs={8} item>
-          <Box className="well_lid">
-            <Title style={{ marginBottom: '40px' }} title="易涝地区监测"></Title>
-
-            <div className="echart">
-              <img src={doughnut_chart_style} className="doughnut_chart " />
-              <Echarts options={circularRingWaterloggingOption('277')}></Echarts>
-            </div>
-
-            <div className="switch">
-              <span>易涝点分布</span>
-              <Switch checked={true} onChange={(e) => handleSwitch(e, 'waterAcreage')}></Switch>
-            </div>
-            <div className="check" onClick={handleCheckDetails}>
-              查看内涝分析详情 &gt;&gt;&gt;
-            </div>
-          </Box>
-        </Grid>
-      </Grid> */}
     </Box>
   )
 }

@@ -6,9 +6,9 @@ import Echarts from '@/components/Echarts'
 import AnnouncementDialog from '@/pages/Dialog/AnnouncementDialog'
 import EventSinkingDialog from '@/pages/Dialog/EventSinkingDialog'
 import EventCount from '../../EventCount'
-// import { eventProcessingChart } from '@/utils/chartsAnimation'
 import { doubleBarOption } from '../echartOption'
 import { announcementColumns, announcementListData, eventProcessingColumns, eventProcessingListData } from './json'
+import chartsAnimation from '@/utils/chartsAnimation'
 import './style.scss'
 
 // 定时器
@@ -28,44 +28,21 @@ export default function index() {
     }
   }
 
+  useEffect(() => {
+    if (eventProcessingWaterloggingRef.current) {
+      setTimeout(() => {
+        interValWaterloggingTimer = chartsAnimation(eventProcessingWaterloggingRef.current, interValWaterloggingTimer)
+      }, 0)
+    }
+  }, [eventProcessingWaterloggingRef.current])
+
   // 初始化
   useEffect(() => {
-    setTimeout(() => {
-      interValWaterloggingTimer = eventProcessingChart()
-    }, 0)
-
     return function () {
       clearInterval(interValWaterloggingTimer)
       interValWaterloggingTimer = null
     }
   }, [])
-
-  // 定时器滚动事件
-  function eventProcessingChart() {
-    if (interValWaterloggingTimer) {
-      clearInterval(interValWaterloggingTimer)
-    }
-    // 定时器
-    return setInterval(function () {
-      // 每次向后滚动一个，最后一个从头开始。
-      let option = eventProcessingWaterloggingRef.current.myChart.getModel().option
-      let obj
-      if (option.dataZoom[0].endValue == 11) {
-        obj = {
-          endValue: 4,
-          startValue: 0,
-        }
-      } else {
-        obj = {
-          endValue: option.dataZoom[0].endValue + 1,
-          startValue: option.dataZoom[0].startValue + 1,
-        }
-      }
-      eventProcessingWaterloggingRef.current.setOption({
-        dataZoom: [obj],
-      })
-    }, 3500)
-  }
 
   // 事件处理统计图表鼠标移入移出事件
   const handleMouse = (type) => {
@@ -75,7 +52,7 @@ export default function index() {
         interValWaterloggingTimer = null
       }
     } else if (type === 'leave') {
-      interValWaterloggingTimer = eventProcessingChart()
+      interValWaterloggingTimer = chartsAnimation(eventProcessingWaterloggingRef.current, interValWaterloggingTimer)
     }
   }
   return (

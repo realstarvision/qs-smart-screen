@@ -12,6 +12,32 @@
     .meteorological{
       padding: 0 100px;
       margin-left: 30px;
+       /* 气象数据 */
+      .weather_module{
+        display: flex;
+        margin-top: 15px;
+        .icon{
+          width: 70px;
+          height: 70px;
+        }
+        .right{
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 15px 0;
+          margin-left: 5px;
+          .label{
+            font-size:14px;
+            font-weight: 400; 
+            color:#eee
+          }
+          .data{
+            margin-top: 5px;
+            font-size:16px;
+            color: #278CE5;
+          }
+        }
+      }
     }
     .water_acreage{
       position: relative;
@@ -120,32 +146,7 @@
     }
   }
 
-  /* 气象数据 */
-  .weather_module{
-    display: flex;
-    margin-top: 15px;
-    .icon{
-      width: 70px;
-      height: 70px;
-    }
-    .right{
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 15px 0;
-      margin-left: 5px;
-      .label{
-        font-size:14px;
-        font-weight: 400; 
-        color:#eee
-      }
-      .data{
-        margin-top: 5px;
-        font-size:16px;
-        color: #278CE5;
-      }
-    }
-  }
+ 
 
 
 

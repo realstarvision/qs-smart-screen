@@ -53,7 +53,7 @@ export function circularRingOption(title, data) {
     series: [
       {
         type: 'pie',
-        radius: ['56%', '72%'],
+        radius: ['57%', '77%'],
         avoidLabelOverlap: false,
         label: {
           show: false,

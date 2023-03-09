@@ -5,44 +5,10 @@ import HexagonModule from '../../HexagonModule'
 import Switch from '@/components/Switch'
 import Echarts from '@/components/Echarts'
 import { doubleLinearOption, linearGradientOption } from '../echartOption'
+import chartsAnimation from '@/utils/chartsAnimation'
 // 图片
-import weather_data from '@/assets/image/test/weather_data.png'
-import doughnut_chart_style from '@/assets/image/png/doughnut_chart_style.png'
-import danger from '@/assets/image/png/hexagon/danger.png'
-import steady from '@/assets/image/png/hexagon/steady.png'
-import fluctuate from '@/assets/image/png/hexagon/fluctuate.png'
-import dangerChecked from '@/assets/image/png/hexagon/danger_checked.png'
-import steadyChecked from '@/assets/image/png/hexagon/steady_checked.png'
-import fluctuateChecked from '@/assets/image/png/hexagon/fluctuate_checked.png'
 import garbage_statistics_loop_outer from '@/assets/image/png/garbage_statistics_loop_outer.png'
 import garbage_statistics_loop_inner from '@/assets/image/png/garbage_statistics_loop_inner.png'
-
-let hexagonList = [
-  {
-    type: 'danger',
-    label: '告警',
-    img: fluctuate,
-    checkImg: fluctuateChecked,
-    value: '18',
-  },
-  {
-    type: 'steady',
-    label: '正常',
-    img: steady,
-    checkImg: steadyChecked,
-    value: '472',
-  },
-  {
-    type: 'fluctuate',
-    label: '离线',
-    img: danger,
-    checkImg: dangerChecked,
-    value: '10',
-  },
-]
-
-let xLabel = ['新建社区', '乔司社区', 'aa社区', 'bb社区', 'cc社区', 'dd社区']
-let yData = [14.1, 19.6, 11.3, 12.5, 10.6, 18.6]
 
 let list = [
   {
@@ -88,16 +54,29 @@ let garbageStatisticalData = [
 
 // 定时器
 let garbageSortingTimer = null
+let garbageDisposalTimer = null
 
 export default function index() {
   const garbageSortingRef = useRef(null)
+  const garbageDisposalRef = useRef(null)
+  // 初始化
+  useEffect(() => {
+    if (garbageSortingRef.current) {
+      setTimeout(() => {
+        garbageSortingTimer = chartsAnimation(garbageSortingRef.current, garbageSortingTimer)
+      }, 0)
+    }
+  }, [garbageSortingRef.current])
+  useEffect(() => {
+    if (garbageDisposalRef.current) {
+      setTimeout(() => {
+        garbageDisposalTimer = chartsAnimation(garbageDisposalRef.current, garbageDisposalTimer, 6, 4, 0)
+      }, 0)
+    }
+  }, [garbageDisposalRef.current])
 
   // 初始化
   useEffect(() => {
-    setTimeout(() => {
-      garbageSortingTimer = ChartTimer()
-    }, 0)
-
     return function () {
       clearInterval(garbageSortingTimer)
       garbageSortingTimer = null
@@ -126,39 +105,32 @@ export default function index() {
     // onCheckDetails('waterlogging')
   }
 
-  // 定时器滚动事件
-  function ChartTimer() {
-    // 定时器
-    return setInterval(function () {
-      // 每次向后滚动一个，最后一个从头开始。
-      let option = garbageSortingRef.current.myChart.getModel().option
-      let obj
-      if (option.dataZoom[0].endValue == 11) {
-        obj = {
-          endValue: 4,
-          startValue: 0,
-        }
-      } else {
-        obj = {
-          endValue: option.dataZoom[0].endValue + 1,
-          startValue: option.dataZoom[0].startValue + 1,
-        }
-      }
-      garbageSortingRef.current.setOption({
-        dataZoom: [obj],
-      })
-    }, 3500)
-  }
-
   // 图表鼠标移入移出事件
-  const handleMouse = (type) => {
-    if (type === 'enter') {
-      if (garbageSortingTimer) {
-        clearInterval(garbageSortingTimer)
-        garbageSortingTimer = null
+  const handleMouse = (action, type) => {
+    if (action === 'enter') {
+      if (type === 'garbageSorting') {
+        if (garbageSortingTimer) {
+          clearInterval(garbageSortingTimer)
+          garbageSortingTimer = null
+        }
+      } else if (type === 'garbageDisposal') {
+        if (garbageDisposalTimer) {
+          clearInterval(garbageDisposalTimer)
+          garbageDisposalTimer = null
+        }
       }
-    } else if (type === 'leave') {
-      garbageSortingTimer = ChartTimer()
+    } else if (action === 'leave') {
+      if (type === 'garbageSorting') {
+        garbageSortingTimer = chartsAnimation(
+          garbageSortingRef.current,
+          garbageSortingTimer,
+          xAxisData.length - 1,
+          4,
+          0
+        )
+      } else if (type === 'garbageDisposal') {
+        garbageDisposalTimer = chartsAnimation(garbageDisposalRef.current, garbageDisposalTimer, 6, 3, 0)
+      }
     }
   }
   return (
@@ -169,8 +141,8 @@ export default function index() {
           {/* <p className="unit">单位：kg</p> */}
           <Echarts
             ref={garbageSortingRef}
-            onMouseEnter={() => handleMouse('enter')}
-            onMouseLeave={() => handleMouse('leave')}
+            onMouseEnter={() => handleMouse('enter', 'garbageSorting')}
+            onMouseLeave={() => handleMouse('leave', 'garbageSorting')}
             options={linearGradientOption({
               list,
               line,
@@ -202,7 +174,11 @@ export default function index() {
       <Grid container spacing={6} className="garbage_disposal">
         <Grid xs={12} item className="garbage_disposal-wrapper">
           <Title title="垃圾处理趋势" size="large"></Title>
-          <Echarts options={doubleLinearOption({ unit: 'kg' })}></Echarts>
+          <Echarts
+            onMouseEnter={() => handleMouse('enter', 'garbageDisposal')}
+            onMouseLeave={() => handleMouse('leave', 'garbageDisposal')}
+            options={doubleLinearOption({ unit: 'kg' })}
+          ></Echarts>
         </Grid>
       </Grid>
     </Box>

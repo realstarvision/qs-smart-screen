@@ -8,6 +8,7 @@ import EventSinkingDialog from '@/pages/Dialog/EventSinkingDialog'
 import EventCount from '../../EventCount'
 // import { eventProcessingChart } from '@/utils/chartsAnimation'
 import { doubleBarOption } from '../echartOption'
+import chartsAnimation from '@/utils/chartsAnimation'
 import { announcementColumns, announcementListData, eventProcessingColumns, eventProcessingListData } from './json'
 
 // 定时器
@@ -30,7 +31,7 @@ export default function index() {
   // 初始化
   useEffect(() => {
     setTimeout(() => {
-      interValSafetyTimer = eventProcessingChart()
+      interValSafetyTimer = chartsAnimation(eventProcessingSafetyRef.current, interValSafetyTimer)
     }, 0)
 
     return function () {
@@ -38,33 +39,6 @@ export default function index() {
       interValSafetyTimer = null
     }
   }, [])
-
-  // 定时器滚动事件
-  function eventProcessingChart() {
-    if (interValSafetyTimer) {
-      clearInterval(interValSafetyTimer)
-    }
-    // 定时器
-    return setInterval(function () {
-      // 每次向后滚动一个，最后一个从头开始。
-      let option = eventProcessingSafetyRef.current.myChart.getModel().option
-      let obj
-      if (option.dataZoom[0].endValue == 11) {
-        obj = {
-          endValue: 4,
-          startValue: 0,
-        }
-      } else {
-        obj = {
-          endValue: option.dataZoom[0].endValue + 1,
-          startValue: option.dataZoom[0].startValue + 1,
-        }
-      }
-      eventProcessingSafetyRef.current.setOption({
-        dataZoom: [obj],
-      })
-    }, 3500)
-  }
 
   // 事件处理统计图表鼠标移入移出事件
   const handleMouse = (type) => {
@@ -74,7 +48,7 @@ export default function index() {
         interValSafetyTimer = null
       }
     } else if (type === 'leave') {
-      interValSafetyTimer = eventProcessingChart()
+      interValSafetyTimer = chartsAnimation(eventProcessingSafetyRef.current, interValSafetyTimer)
     }
   }
   return (
